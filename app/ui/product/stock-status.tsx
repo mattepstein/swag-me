@@ -1,5 +1,10 @@
 import { getProductStock } from "@/app/lib/api";
 import { clsx } from "clsx";
+
+export function ProductStockSkeleton() {
+  return <div className="h-4 w-full animate-pulse rounded bg-gray-200" />;
+}
+
 export default async function StockStatus({
   productId,
 }: {

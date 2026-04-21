@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface ImageCarouselProps {
   images: string[];
@@ -16,9 +16,23 @@ export default function ImageCarousel({
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [thumbStart, setThumbStart] = useState(0);
 
-  const thumbEnd = Math.min(thumbStart + visibleThumbnails, images.length);
-  const canScrollLeft = thumbStart > 0;
-  const canScrollRight = thumbEnd < images.length;
+  const maxThumbStart = Math.max(0, images.length - visibleThumbnails);
+
+  useEffect(() => {
+    setThumbStart((s) => Math.min(Math.max(0, s), maxThumbStart));
+  }, [maxThumbStart, images.length]);
+
+  useEffect(() => {
+    setSelectedIndex((i) =>
+      Math.min(Math.max(0, i), Math.max(0, images.length - 1)),
+    );
+  }, [images.length]);
+
+  /** Clamp for this render so a stale thumbStart never yields a negative window before effects run. */
+  const windowStart = Math.min(Math.max(0, thumbStart), maxThumbStart);
+  const thumbEnd = Math.min(windowStart + visibleThumbnails, images.length);
+  const canScrollLeft = windowStart > 0;
+  const canScrollRight = windowStart < maxThumbStart;
 
   return (
     <div className="flex flex-col gap-3">
@@ -26,10 +40,11 @@ export default function ImageCarousel({
         <Image
           src={images[selectedIndex]}
           alt={`Product image ${selectedIndex + 1}`}
+          className="object-contain w-60 h-60"
           fill
-          className="object-contain"
           sizes="(max-width: 768px) 100vw, 50vw"
           priority={selectedIndex === 0}
+          loading="eager"
         />
       </div>
 
@@ -45,8 +60,8 @@ export default function ImageCarousel({
           </button>
 
           <div className="flex flex-1 justify-center gap-2">
-            {images.slice(thumbStart, thumbEnd).map((src, i) => {
-              const realIndex = thumbStart + i;
+            {images.slice(windowStart, thumbEnd).map((src, i) => {
+              const realIndex = windowStart + i;
               return (
                 <button
                   key={src}
@@ -61,9 +76,9 @@ export default function ImageCarousel({
                   <Image
                     src={src}
                     alt={`Thumbnail ${realIndex + 1}`}
-                    fill
                     className="object-cover"
                     sizes="64px"
+                    loading="lazy"
                   />
                 </button>
               );
@@ -71,11 +86,7 @@ export default function ImageCarousel({
           </div>
 
           <button
-            onClick={() =>
-              setThumbStart((s) =>
-                Math.min(s + 1, images.length - visibleThumbnails),
-              )
-            }
+            onClick={() => setThumbStart((s) => Math.min(s + 1, maxThumbStart))}
             disabled={!canScrollRight}
             aria-label="Next thumbnails"
             className="shrink-0 rounded p-1 text-gray-600 enabled:hover:bg-gray-100 disabled:opacity-30"

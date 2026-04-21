@@ -1,7 +1,16 @@
 import type { ApiErrorResponse } from "@/app/lib/models";
 
-const BASE_URL = process.env.SWAG_API_BASE_URL!;
-const BYPASS_TOKEN = process.env.SWAG_API_BYPASS_TOKEN!;
+function getBaseUrl(): string {
+  const url = process.env.SWAG_API_BASE_URL;
+  if (!url) throw new Error("SWAG_API_BASE_URL is not set");
+  return url;
+}
+
+function getBypassToken(): string {
+  const token = process.env.SWAG_API_BYPASS_TOKEN;
+  if (!token) throw new Error("SWAG_API_BYPASS_TOKEN is not set");
+  return token;
+}
 
 export class ApiError extends Error {
   constructor(
@@ -20,7 +29,8 @@ type RequestOptions = Omit<RequestInit, "method"> & {
 };
 
 function buildUrl(path: string, params?: RequestOptions["params"]): string {
-  const base = BASE_URL.endsWith("/") ? BASE_URL.slice(0, -1) : BASE_URL;
+  const baseUrl = getBaseUrl();
+  const base = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
   const segment = path.startsWith("/") ? path : `/${path}`;
   const url = new URL(`${base}${segment}`);
   if (params) {
@@ -45,10 +55,19 @@ async function request<T>(
     method,
     ...fetchOptions,
     headers: {
-      "x-vercel-protection-bypass": BYPASS_TOKEN,
+      "x-vercel-protection-bypass": getBypassToken(),
       ...extraHeaders,
     },
   });
+
+  const contentType = res.headers.get("content-type") ?? "";
+  if (!contentType.includes("application/json")) {
+    throw new ApiError(
+      res.status,
+      "INVALID_RESPONSE",
+      `Expected JSON but received ${contentType || "unknown content-type"} from ${method} ${url}`,
+    );
+  }
 
   const json = await res.json();
   if (!res.ok || json.success === false) {

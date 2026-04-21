@@ -1,0 +1,28 @@
+import type { Metadata } from "next";
+import "../globals.css";
+import LeftRail from "../ui/layout/left-rail";
+import { listCategories } from "../lib/api/categories";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Products",
+    description: "Products page",
+  };
+}
+
+export default async function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  // get category list before client side interactions.
+  const categoryList = await listCategories();
+  return (
+    <div className="container flex flex-1 mx-auto h-full">
+      <LeftRail categoryList={categoryList?.data || []} />
+      <div className="min-h-0 min-w-0  overflow-x-hidden h-full px-4 py-8">
+        {children}
+      </div>
+    </div>
+  );
+}

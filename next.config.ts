@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
+    qualities: [25, 50, 75, 90, 100],
     remotePatterns: [
       {
         protocol: "https",
@@ -26,6 +27,11 @@ const nextConfig: NextConfig = {
       expire: 5, // 5 minutes max
     },
     storeConfig: {
+      stale: 3600, // 1 hour fresh
+      revalidate: 7200, // 2 hours before revalidation
+      expire: 86400, // 1 day max
+    },
+    categories: {
       stale: 3600, // 1 hour fresh
       revalidate: 7200, // 2 hours before revalidation
       expire: 86400, // 1 day max

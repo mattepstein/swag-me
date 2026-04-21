@@ -32,12 +32,12 @@ export async function listProducts(params?: ListProductsParams) {
   return data;
 }
 
-export async function getProduct(idOrSlug: string) {
+export async function getProduct(id: string) {
   "use cache";
   cacheLife("products");
 
   const { data } = await get<ProductResponse>(
-    `/products/${encodeURIComponent(idOrSlug)}`,
+    `/products/${encodeURIComponent(id)}`,
   );
   return data;
 }

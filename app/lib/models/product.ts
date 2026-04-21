@@ -12,3 +12,10 @@ export interface Product {
   tags: string[];
   createdAt: string;
 }
+export type ProductSearchParams = Promise<{
+  category?: string;
+  search?: string;
+  featured?: string;
+  page?: string;
+  per_page?: string;
+}>;

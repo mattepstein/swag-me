@@ -17,10 +17,15 @@ export async function createCart() {
 }
 
 export async function getCart(token: string) {
-  const { data } = await get<CartResponse>("/cart", {
-    headers: cartHeaders(token),
-  });
-  return data;
+  try {
+    const { data } = await get<CartResponse>("/cart", {
+      headers: cartHeaders(token),
+    });
+    return data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
 
 export async function addItemToCart(token: string, body: AddToCartRequest) {
