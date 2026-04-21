@@ -36,7 +36,7 @@ export default async function Page(props: {
     </main>
   );
 }
-
+//cacheable component
 async function ProductDetail({ slug }: { slug: string }) {
   const product = await getProduct(slug);
   if (!product?.data) {
