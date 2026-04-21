@@ -1,4 +1,5 @@
 import { get } from "./client";
+import { cacheLife } from "next/cache";
 import type {
   ProductListResponse,
   ProductResponse,
@@ -14,18 +15,29 @@ export interface ListProductsParams {
 }
 
 export async function listProducts(params?: ListProductsParams) {
+  "use cache";
+  cacheLife("products");
+
   const mapped = params
     ? {
         ...params,
-        featured: params.featured !== undefined ? String(params.featured) : undefined,
+        featured:
+          params.featured !== undefined ? String(params.featured) : undefined,
       }
     : undefined;
 
-  const { data } = await get<ProductListResponse>("/products", { params: mapped });
+  const { data } = await get<ProductListResponse>("/products", {
+    params: mapped,
+  });
   return data;
 }
 
 export async function getProduct(idOrSlug: string) {
-  const { data } = await get<ProductResponse>(`/products/${encodeURIComponent(idOrSlug)}`);
+  "use cache";
+  cacheLife("products");
+
+  const { data } = await get<ProductResponse>(
+    `/products/${encodeURIComponent(idOrSlug)}`,
+  );
   return data;
 }

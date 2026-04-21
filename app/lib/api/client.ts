@@ -20,12 +20,9 @@ type RequestOptions = Omit<RequestInit, "method"> & {
 };
 
 function buildUrl(path: string, params?: RequestOptions["params"]): string {
-  console.log("building url", path, params, BASE_URL);
-  const fullPath = BASE_URL.endsWith("/")
-    ? `${BASE_URL}${path}`
-    : `${BASE_URL}/${path}`;
-  console.log("full path", fullPath);
-  const url = new URL(fullPath);
+  const base = BASE_URL.endsWith("/") ? BASE_URL.slice(0, -1) : BASE_URL;
+  const segment = path.startsWith("/") ? path : `/${path}`;
+  const url = new URL(`${base}${segment}`);
   if (params) {
     for (const [key, value] of Object.entries(params)) {
       if (value !== undefined) {
@@ -33,7 +30,6 @@ function buildUrl(path: string, params?: RequestOptions["params"]): string {
       }
     }
   }
-  console.log("built url", url.toString());
   return url.toString();
 }
 
