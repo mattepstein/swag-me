@@ -13,7 +13,13 @@ export function CategoryListSkeleton({ count }: { count: number }) {
     </>
   );
 }
-export function CategoryList({ categoryList }: { categoryList: Category[] }) {
+export function CategoryList({
+  categoryList,
+  currentCategory,
+}: {
+  categoryList: Category[];
+  currentCategory: string;
+}) {
   const linkClass = clsx("rounded-md px-2 py-1.5 hover:bg-white/10");
   return (
     <nav className="flex flex-1 flex-col gap-1 overflow-y-auto p-3 text-sm">
@@ -32,7 +38,12 @@ export function CategoryList({ categoryList }: { categoryList: Category[] }) {
             categoryList?.map((category) => (
               <Link
                 href={`/products?category=${category.slug}`}
-                className={linkClass}
+                className={clsx(
+                  linkClass,
+                  currentCategory === category.slug
+                    ? "bg-white/10 text-black"
+                    : "",
+                )}
                 key={category.slug}
               >
                 {category.name} ({category.productCount})

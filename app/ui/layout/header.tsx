@@ -17,9 +17,7 @@ export function HeaderSkeleton() {
           </div>
           <div className="flex w-full items-center justify-between gap-2 sm:w-auto sm:justify-end"></div>
         </div>
-        <div className="mt-3 sm:hidden">
-          <Searchbar />
-        </div>
+
         <div className="mt-3 sm:hidden"></div>
       </div>
     </header>
@@ -48,9 +46,7 @@ export default async function Header() {
           </div>
           <div className="flex w-full items-center justify-between gap-2 sm:w-auto sm:justify-end"></div>
         </div>
-        <div className="mt-3 sm:hidden">
-          <Searchbar />
-        </div>
+
         <Suspense fallback={<div></div>}>
           <Promobar promotion={promotionData} />
         </Suspense>

@@ -1,0 +1,36 @@
+<svg
+  width="125"
+  height="125"
+  viewBox="0 0 100 100"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <!-- Triangle (equilateral) -->
+  <polygon
+    points="10,10 85,10 47.5,75 "
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linejoin="round"
+  />
+
+  <!-- Magnifying glass lens -->
+  <circle
+    cx="48"
+    cy="32"
+    r="30"
+    stroke="currentColor"
+    stroke-width="4"
+    
+  />
+
+  <!-- Handle -->
+  <line
+    x1="72"
+    y1="50"
+    x2="85"
+    y2="60"
+    stroke="currentColor"
+    stroke-width="4"
+    stroke-linecap="round"
+  />
+</svg>

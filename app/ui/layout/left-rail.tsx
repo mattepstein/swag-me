@@ -1,8 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { Category } from "@/app/lib/models/category";
-import { CategoryList } from "../navigation/category-list";
+import {
+  CategoryList,
+  CategoryListSkeleton,
+} from "../navigation/category-list";
+import { useSearchParams } from "next/navigation";
+
+export function LeftRailSkeleton() {
+  return (
+    <aside className="relative z-10 flex shrink-0 flex-col border-r border-white/10 bg-zinc-900 text-white transition-[width] duration-200 ease-out w-10 sm:w-11">
+      <div className="h-11 w-full animate-pulse bg-gray-200" />
+    </aside>
+  );
+}
 
 export default function LeftRail({
   categoryList,
@@ -10,7 +22,8 @@ export default function LeftRail({
   categoryList: Category[];
 }) {
   const [isOpen, setIsOpen] = useState(true);
-
+  const searchParams = useSearchParams();
+  const currentCategory = searchParams.get("category") || "";
   return (
     <aside
       className={`relative z-10 flex shrink-0 flex-col border-r border-white/10 bg-zinc-900 text-white transition-[width] duration-200 ease-out ${
@@ -28,7 +41,12 @@ export default function LeftRail({
       </button>
       {isOpen && (
         <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto p-3 text-sm">
-          <CategoryList categoryList={categoryList} />
+          <Suspense fallback={<CategoryListSkeleton count={10} />}>
+            <CategoryList
+              categoryList={categoryList}
+              currentCategory={currentCategory}
+            />
+          </Suspense>
         </div>
       )}
     </aside>
