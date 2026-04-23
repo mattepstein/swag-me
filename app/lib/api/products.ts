@@ -1,5 +1,5 @@
 import { get } from "./client";
-import { cacheLife } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 import type {
   ProductListResponse,
   ProductResponse,
@@ -35,6 +35,7 @@ export async function listProducts(params?: ListProductsParams) {
 export async function getProduct(id: string) {
   "use cache";
   cacheLife("products");
+  cacheTag("products", `product-${id}`);
 
   const { data } = await get<ProductResponse>(
     `/products/${encodeURIComponent(id)}`,
