@@ -1,15 +1,54 @@
-import { ProductListResponse } from "@/app/lib/models";
-import ProductCard from "./product-card";
-import Pagination from "./pagination";
+import { CategorySlug, ProductListResponse } from "@/app/lib/models";
+import ProductCard, { ProductCardSkeleton } from "./product-card";
+import Pagination, { PaginationSkeleton } from "./pagination";
 import ProductNotFoundCard from "./product-not-found";
+import { listProducts } from "@/app/lib/api";
 
-export function ProductGridSkeleton({ count }: { count: number }) {
+export async function ProductGridData({
+  page,
+  limit,
+  category,
+  search,
+  featured,
+  showPagination = false,
+}: {
+  page: number;
+  limit: number;
+  category?: CategorySlug | undefined;
+  search?: string;
+  featured?: boolean;
+  showPagination?: boolean;
+}) {
+  const products = await listProducts({
+    page,
+    limit,
+    category,
+    search,
+    featured,
+  });
+  return <ProductGrid products={products} showPagination={showPagination} />;
+}
+
+export function ProductGridSkeleton({
+  count,
+  showPagination = false,
+}: {
+  count: number;
+  showPagination: boolean;
+}) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {Array.from({ length: count }, (_, i) => (
-        <div key={i} className="h-64 animate-pulse rounded-lg bg-gray-200" />
-      ))}
-    </div>
+    <>
+      {showPagination === true && (
+        <div className="flex justify-center items-center mb-4 w-full">
+          <PaginationSkeleton />
+        </div>
+      )}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {Array.from({ length: count }, (_, i) => (
+          <ProductCardSkeleton key={i} />
+        ))}
+      </div>
+    </>
   );
 }
 
@@ -30,13 +69,14 @@ export default async function ProductGrid({
   }
   return (
     <>
-      {showPagination && products?.meta?.pagination?.totalPages > 1 && (
-        <div className="flex justify-center items-center mb-4 w-full">
-          <Pagination
-            totalPages={products?.meta?.pagination?.totalPages || 1}
-          />
-        </div>
-      )}
+      {showPagination === true &&
+        products?.meta?.pagination?.totalPages > 1 && (
+          <div className="flex justify-center items-center mb-4 w-full">
+            <Pagination
+              totalPages={products?.meta?.pagination?.totalPages || 1}
+            />
+          </div>
+        )}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {products.data.map((product) => (
           <ProductCard key={product.id} product={product} />

@@ -40,6 +40,14 @@ const generatePagination = (currentPage: number, totalPages: number) => {
   ];
 };
 
+export function PaginationSkeleton() {
+  return (
+    <div className="inline-flex">
+      <div className="h-10 w-100 animate-pulse rounded-md bg-gray-200" />
+    </div>
+  );
+}
+
 export default function Pagination({ totalPages }: { totalPages: number }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();

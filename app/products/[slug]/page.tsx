@@ -20,8 +20,8 @@ export default async function Page(props: {
   const params = await props.params;
 
   return (
-    <main className="container mx-auto px-4 py-8">
-      <Suspense fallback={<ProductDetailSkeleton />}>
+    <main className="container mx-0 px-4 py-8">
+      <Suspense fallback=<ProductDetailSkeleton />>
         <ProductDetail slug={params.slug} />
       </Suspense>
     </main>

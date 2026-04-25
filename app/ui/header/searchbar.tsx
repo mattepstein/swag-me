@@ -1,6 +1,6 @@
 "use client";
 
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 import searchIcon from "../../../public/icons/search.svg";
 import Image from "next/image";
@@ -12,10 +12,10 @@ export function SearchbarSkeleton() {
     </div>
   );
 }
-
+//the search bar based on example from learn nextjs
 export default function Searchbar({ placeholder }: { placeholder: string }) {
   const searchParams = useSearchParams();
-  const pathname = usePathname();
+  const pathname = "/products";
   const { replace } = useRouter();
 
   const handleSearch = useDebouncedCallback((term) => {

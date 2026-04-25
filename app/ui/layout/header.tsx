@@ -3,18 +3,20 @@ import CartStatus from "../header/cartstatus";
 import Logo from "../header/logo";
 import Menu from "../header/menu";
 import Promobar from "../header/promobar";
-import Searchbar from "../header/searchbar";
+import Searchbar, { SearchbarSkeleton } from "../header/searchbar";
 import { Suspense } from "react";
 import { PromotionResponse } from "@/app/lib/models";
 
 export function HeaderSkeleton() {
   return (
     <header className="w-full shrink-0 border-b border-white/10 bg-zinc-900 text-white">
-      <div className="mx-auto w-full max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
+      <div className="px-4 w-full max-w-7xl py-3 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-center gap-3 sm:gap-4">
           <div className="flex min-w-0 flex-1 items-center gap-3 sm:gap-4">
             <Logo />
+            <SearchbarSkeleton />
           </div>
+
           <div className="flex w-full items-center justify-between gap-2 sm:w-auto sm:justify-end"></div>
         </div>
 
@@ -39,10 +41,11 @@ export default async function Header() {
 
   return (
     <header className="w-full shrink-0 border-b border-white/10 bg-zinc-900 text-white">
-      <div className="mx-auto w-full max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
+      <div className="  w-full max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-center gap-3 sm:gap-4">
           <div className="flex min-w-0 flex-1 items-center gap-3 sm:gap-4">
             <Logo />
+            <Searchbar placeholder="Search products" />
           </div>
           <div className="flex w-full items-center justify-between gap-2 sm:w-auto sm:justify-end"></div>
         </div>

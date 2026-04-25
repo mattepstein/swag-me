@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { getStoreConfig } from "./lib/api";
-import { CartWithProducts } from "./lib/models/cart";
 
 import Header, { HeaderSkeleton } from "./ui/layout/header";
 import RightRail from "./ui/layout/right-rail";
+import CartDataHost from "./ui/cart/cart-rail";
+import { CartDataProvider } from "./lib/cart/cart-context";
+import { CartUIProvider } from "./ui/cart/cart-ui-context";
 import Footer from "./ui/layout/footer";
 import { Suspense } from "react";
 
@@ -42,20 +44,19 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cart = {
-    token: "",
-    items: [],
-    totalItems: 0,
-    subtotal: 0,
-    currency: "",
-    createdAt: "",
-    updatedAt: "",
-  } as CartWithProducts;
+  const layoutBody = (
+    <div className="relative flex min-h-0 min-w-0 flex-1">
+      <div className="min-h-0 min-w-0 w-full flex-1 overflow-x-hidden">
+        {children}
+      </div>
+      <RightRail />
+    </div>
+  );
 
   return (
     <html
@@ -66,14 +67,13 @@ export default async function RootLayout({
         <Suspense fallback={<HeaderSkeleton />}>
           <Header />
         </Suspense>
-        <div className="relative flex min-h-0 min-w-0 flex-1">
-          <div className="min-h-0 min-w-0 w-full flex-1 overflow-x-hidden">
-            {children}
-          </div>
-          <Suspense fallback={<div></div>}>
-            <RightRail cart={cart} />
+        <CartUIProvider>
+          <Suspense
+            fallback={<CartDataProvider>{layoutBody}</CartDataProvider>}
+          >
+            <CartDataHost>{layoutBody}</CartDataHost>
           </Suspense>
-        </div>
+        </CartUIProvider>
         <Footer />
       </body>
     </html>

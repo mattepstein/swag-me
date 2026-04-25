@@ -1,4 +1,3 @@
-import { listCategories } from "@/app/lib/api";
 import { Category } from "@/app/lib/models/category";
 import clsx from "clsx";
 import Link from "next/link";

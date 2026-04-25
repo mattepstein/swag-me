@@ -42,9 +42,10 @@ export default function ImageCarousel({
           alt={`Product image ${selectedIndex + 1}`}
           className="object-contain w-60 h-60"
           fill
-          sizes="(max-width: 768px) 100vw, 50vw"
-          priority={selectedIndex === 0}
+          sizes="60vw"
+          placeholder="blur"
           loading="eager"
+          quality={90}
         />
       </div>
 
@@ -78,6 +79,8 @@ export default function ImageCarousel({
                     alt={`Thumbnail ${realIndex + 1}`}
                     className="object-cover"
                     sizes="64px"
+                    quality={50}
+                    placeholder="blur"
                     loading="lazy"
                   />
                 </button>

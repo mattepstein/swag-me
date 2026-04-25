@@ -1,13 +1,12 @@
 "use client";
 
 import clsx from "clsx";
-import { Suspense, useState } from "react";
-import { CartWithProducts } from "@/app/lib/models/cart";
-import CartTray, { CartTraySkeleton } from "../cart/cart-tray";
+import CartTray from "../cart/cart-tray";
 import CartIcon from "../cart/cart-icon";
+import { useCartUI } from "../cart/cart-ui-context";
 
-export default function RightRail({ cart }: { cart: CartWithProducts }) {
-  const [isOpen, setIsOpen] = useState(false);
+export default function RightRail() {
+  const { isOpen, toggle } = useCartUI();
 
   return (
     <aside
@@ -20,7 +19,7 @@ export default function RightRail({ cart }: { cart: CartWithProducts }) {
     >
       <button
         type="button"
-        onClick={() => setIsOpen((v) => !v)}
+        onClick={toggle}
         aria-expanded={isOpen}
         aria-label={isOpen ? "Close tray" : "Open tray"}
         className={clsx(
@@ -28,14 +27,10 @@ export default function RightRail({ cart }: { cart: CartWithProducts }) {
           isOpen ? "rounded-none border-b border-white/10" : "rounded-l-md",
         )}
       >
-        <CartIcon cart={cart} />
+        <CartIcon />
         {isOpen ? ">>" : "<<"}
       </button>
-      {isOpen && (
-        <Suspense fallback={<CartTraySkeleton />}>
-          <CartTray cart={cart} />
-        </Suspense>
-      )}
+      {isOpen && <CartTray />}
     </aside>
   );
 }

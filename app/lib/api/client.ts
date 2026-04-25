@@ -1,3 +1,4 @@
+import "server-only";
 import type { ApiErrorResponse } from "@/app/lib/models";
 
 function getBaseUrl(): string {

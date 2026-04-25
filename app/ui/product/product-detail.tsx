@@ -23,18 +23,24 @@ export default async function ProductDetail({ slug }: { slug: string }) {
 
   return (
     <>
-      <div className="text-2xl font-bold">{product.data.name}</div>
       <TagList tags={product?.data?.tags} />
-      <div className="flex flex-col gap-2 items-start justify-start">
-        <p className="text-gray-500">${product.data.price / 100}</p>
-        <Suspense fallback={<div>Loading stock…</div>}>
-          <StockStatus productId={product.data.id} />
-        </Suspense>
-      </div>
+      <div className="grid md:grid-cols-3 sm:grid-cols-1 gap-4">
+        <div className="col-span-1  ">
+          <div className="text-2xl font-bold">{product.data.name}</div>
 
-      <AddToCartButton product={product.data} />
-      <ImageCarousel images={product.data.images} />
-      <p className="text-gray-500">{product.data.description}</p>
+          <p className="text-gray-500">${product.data.price / 100}</p>
+          <Suspense fallback={<div>Loading stock…</div>}>
+            <StockStatus productId={product.data.id} />
+          </Suspense>
+
+          <p className="text-gray-500">{product.data.description}</p>
+
+          <AddToCartButton product={product.data} />
+        </div>
+        <div className="col-span-1">
+          <ImageCarousel images={product.data.images} />
+        </div>
+      </div>
     </>
   );
 }

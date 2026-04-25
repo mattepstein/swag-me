@@ -8,6 +8,18 @@ import StockStatus, {
 } from "@/app/ui/product/stock-status";
 import { TagList } from "./taglist";
 
+export function ProductCardSkeleton() {
+  return (
+    <div className="h-64 w-100 animate-pulse rounded-lg bg-gray-200">
+      <div className="card-body">
+        <div className="flex flex-col gap-2 justify-center items-center">
+          <div className="text-lg font-bold"></div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ProductCard({ product }: { product: Product }) {
   return (
     <div

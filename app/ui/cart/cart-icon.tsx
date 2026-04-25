@@ -1,12 +1,13 @@
-import { CartWithProducts } from "@/app/lib/models/cart";
-import { Suspense } from "react";
+"use client";
 
-export default function CartIcon({ cart }: { cart: CartWithProducts }) {
+import { useCartData } from "../../lib/cart/cart-context";
+
+export default function CartIcon() {
+  const { cart } = useCartData();
+  const count = cart?.totalItems ?? 0;
   return (
     <div>
-      <Suspense fallback={<div>Cart</div>}>
-        <h1>Cart {cart?.totalItems || ""}</h1>
-      </Suspense>
+      <h1>Cart {count > 0 ? count : ""}</h1>
     </div>
   );
 }

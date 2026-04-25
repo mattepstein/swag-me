@@ -11,23 +11,17 @@ export default async function StockStatus({
   productId: string;
 }) {
   const stock = await getProductStock(productId);
-  if (!stock?.data || stock.data.stock === 0) {
-    return (
-      <div>
-        <p>Out of Stock</p>
-      </div>
-    );
-  }
+  const isOutOfStock =
+    !stock?.data || stock.data.stock === null || stock.data.stock < 1;
+
   return (
     <div
-      className={clsx(
-        "text-sm text-gray-500",
-        stock.data.lowStock && "text-yellow-500",
-        stock.data.stock === 0 && "text-red-500",
-      )}
+      className={clsx("text-sm text-gray-500", {
+        "text-yellow-500": stock.data.lowStock,
+        "text-red-500": isOutOfStock,
+      })}
     >
-      <p>{stock.data.stock} in Stock</p>
-      {stock.data.lowStock && <p>Low Stock</p>}
+      <p>{isOutOfStock ? "Out of Stock" : `${stock.data.stock} in Stock`}</p>
     </div>
   );
 }

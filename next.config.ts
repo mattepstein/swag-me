@@ -24,7 +24,7 @@ const nextConfig: NextConfig = {
     stock: {
       stale: 60, // 1 minutes fresh
       revalidate: 120, // 2 minutes before revalidation
-      expire: 5, // 5 minutes max
+      expire: 300, // 5 minutes max
     },
     storeConfig: {
       stale: 3600, // 1 hour fresh
