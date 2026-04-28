@@ -9,6 +9,8 @@ interface ImageCarouselProps {
   visibleThumbnails?: number;
 }
 
+const blurUrl =
+  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iYmxhY2siIC8+CiAgPHBvbHlnb24gcG9pbnRzPSIxMDAsNDAgNDAsMTQzLjkyIDE2MCwxNDMuOTIiIGZpbGw9IndoaXRlIiAvPgo8L3N2Zz4=";
 export default function ImageCarousel({
   images,
   visibleThumbnails = 4,
@@ -44,6 +46,7 @@ export default function ImageCarousel({
           fill
           sizes="60vw"
           placeholder="blur"
+          blurDataURL={blurUrl}
           loading="eager"
           quality={90}
         />
@@ -81,6 +84,7 @@ export default function ImageCarousel({
                     sizes="64px"
                     quality={50}
                     placeholder="blur"
+                    blurDataURL={blurUrl}
                     loading="lazy"
                   />
                 </button>

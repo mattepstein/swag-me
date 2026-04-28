@@ -17,7 +17,7 @@ export default async function StockStatus({
   return (
     <div
       className={clsx("text-sm text-gray-500", {
-        "text-yellow-500": stock.data.lowStock,
+        "text-yellow-500": stock?.data?.lowStock,
         "text-red-500": isOutOfStock,
       })}
     >

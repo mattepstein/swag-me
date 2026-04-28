@@ -1,5 +1,5 @@
 "use client";
-
+// cart tray context is used to manage the cart tray state and actions from across components
 import {
   createContext,
   useCallback,
@@ -10,7 +10,7 @@ import {
   type ReactNode,
 } from "react";
 
-type CartUIContextValue = {
+type CartTrayState = {
   isOpen: boolean;
   open: () => void;
   close: () => void;
@@ -19,14 +19,14 @@ type CartUIContextValue = {
   isPending: boolean;
   /**
    * Wrap a cart server action in a transition so `isPending` stays true
-   * until both the action and the downstream RSC revalidation have finished.
+   * until both the action and the downstream revalidation have finished.
    */
   runCartAction: (action: () => Promise<void>) => void;
 };
 
-const CartUIContext = createContext<CartUIContextValue | null>(null);
+const CartTrayContext = createContext<CartTrayState | null>(null);
 
-export function CartUIProvider({ children }: { children: ReactNode }) {
+export function CartTrayProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
 
@@ -49,14 +49,16 @@ export function CartUIProvider({ children }: { children: ReactNode }) {
   );
 
   return (
-    <CartUIContext.Provider value={value}>{children}</CartUIContext.Provider>
+    <CartTrayContext.Provider value={value}>
+      {children}
+    </CartTrayContext.Provider>
   );
 }
 
-export function useCartUI(): CartUIContextValue {
-  const ctx = useContext(CartUIContext);
+export function useCartTray(): CartTrayState {
+  const ctx = useContext(CartTrayContext);
   if (!ctx) {
-    throw new Error("useCartUI must be used within a CartUIProvider");
+    throw new Error("useCartTray must be used within a CartTrayProvider");
   }
   return ctx;
 }

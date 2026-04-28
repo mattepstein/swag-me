@@ -1,11 +1,11 @@
 "use client";
 import clsx from "clsx";
 import { Product } from "../../lib/models/product";
-import { useCartUI } from "../cart/cart-ui-context";
-import { useCartData } from "../../lib/cart/cart-context";
+import { useCartTray } from "../../lib/cart/cart-tray-context";
+import { useCartData } from "../../lib/cart/cart-data-context";
 
 export default function AddToCartButton({ product }: { product: Product }) {
-  const { open, isPending } = useCartUI();
+  const { open, isPending } = useCartTray();
   const { addItem } = useCartData();
 
   return (

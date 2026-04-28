@@ -1,8 +1,45 @@
 import { Suspense } from "react";
-import { listProducts } from "@/app/lib/api";
+import { getProduct, listProducts } from "@/app/lib/api";
 import ProductDetail, {
   ProductDetailSkeleton,
 } from "@/app/ui/product/product-detail";
+import { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const product = await getProduct(slug);
+  if (!product?.data) {
+    return {
+      title: "Product not found",
+      description: "Product not found",
+    };
+  }
+
+  return {
+    title: product.data.name,
+    description: product.data.description || "",
+    openGraph: {
+      images: product.data.images,
+    },
+    twitter: {
+      images: product.data.images,
+    },
+    alternates: {
+      canonical: `/products/${slug}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+    icons: {
+      icon: product.data.images[0],
+    },
+  };
+}
 
 export async function generateStaticParams() {
   const products = await listProducts({ limit: 100 });

@@ -6,8 +6,8 @@ import { getStoreConfig } from "./lib/api";
 import Header, { HeaderSkeleton } from "./ui/layout/header";
 import RightRail from "./ui/layout/right-rail";
 import CartDataHost from "./ui/cart/cart-rail";
-import { CartDataProvider } from "./lib/cart/cart-context";
-import { CartUIProvider } from "./ui/cart/cart-ui-context";
+import { CartProvider } from "./lib/cart/cart-data-context";
+import { CartTrayProvider } from "./lib/cart/cart-tray-context";
 import Footer from "./ui/layout/footer";
 import { Suspense } from "react";
 
@@ -67,13 +67,11 @@ export default function RootLayout({
         <Suspense fallback={<HeaderSkeleton />}>
           <Header />
         </Suspense>
-        <CartUIProvider>
-          <Suspense
-            fallback={<CartDataProvider>{layoutBody}</CartDataProvider>}
-          >
+        <CartTrayProvider>
+          <Suspense fallback={<CartProvider>{layoutBody}</CartProvider>}>
             <CartDataHost>{layoutBody}</CartDataHost>
           </Suspense>
-        </CartUIProvider>
+        </CartTrayProvider>
         <Footer />
       </body>
     </html>

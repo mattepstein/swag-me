@@ -15,7 +15,7 @@ export async function createCart() {
   const token = headers.get("x-cart-token")!;
   return { ...data, token };
 }
-
+/** Gets the existing cart or throws an error if the cart is not found */
 export async function getCart(token: string) {
   try {
     const { data } = await get<CartResponse>("/cart", {
@@ -23,11 +23,11 @@ export async function getCart(token: string) {
     });
     return data;
   } catch (error) {
-    console.error(error);
-    return null;
+    throw new Error("getCart api error: " + error);
   }
 }
 
+/** Adds an item to the cart. may throw an error if the cart is not found */
 export async function addItemToCart(token: string, body: AddToCartRequest) {
   const { data } = await post<CartResponse>("/cart", {
     headers: {
@@ -38,7 +38,7 @@ export async function addItemToCart(token: string, body: AddToCartRequest) {
   });
   return data;
 }
-
+/** Updates an item in the cart. may throw an error if the cart is not found */
 export async function updateCartItem(
   token: string,
   itemId: string,
@@ -57,6 +57,7 @@ export async function updateCartItem(
   return data;
 }
 
+/** Removes an item from the cart. may throw an error if the cart is not found */
 export async function removeCartItem(token: string, itemId: string) {
   const { data } = await del<CartResponse>(
     `/cart/${encodeURIComponent(itemId)}`,

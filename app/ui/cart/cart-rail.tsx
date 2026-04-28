@@ -1,16 +1,19 @@
 import type { ReactNode } from "react";
-import { getCurrentCart } from "@/app/lib/cart/cart";
-import { CartDataProvider } from "../../lib/cart/cart-context";
+import { getCurrentCart } from "@/app/lib/cart/cart-mutations";
+import type { CartWithProducts } from "@/app/lib/models/cart";
+import { CartProvider } from "../../lib/cart/cart-data-context";
 
 export default async function CartDataHost({
   children,
 }: {
   children: ReactNode;
 }) {
-  const cart = await getCurrentCart();
+  const cartRes = await getCurrentCart();
+  const initial: CartWithProducts | null =
+    cartRes?.success === true ? cartRes.data : null;
   return (
-    <CartDataProvider initialCart={cart?.data ?? null}>
+    <CartProvider key={initial?.token ?? "no-cart"} initialCart={initial}>
       {children}
-    </CartDataProvider>
+    </CartProvider>
   );
 }

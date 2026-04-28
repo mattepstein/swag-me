@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  cacheComponents: true, // Enable Cache Components (top-level in 16.1.x+)
+  cacheComponents: true, // Enable Cache Components
   cacheLife: {
     // Product catalog - moderate cache
     products: {

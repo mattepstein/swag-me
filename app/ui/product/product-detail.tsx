@@ -1,4 +1,4 @@
-import { getProduct, listProducts } from "@/app/lib/api";
+import { getProduct } from "@/app/lib/api";
 import ImageCarousel from "@/app/ui/product/image-carousel";
 import StockStatus from "@/app/ui/product/stock-status";
 import AddToCartButton from "@/app/ui/product/add-to-cart-button";

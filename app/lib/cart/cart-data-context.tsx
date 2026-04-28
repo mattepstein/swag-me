@@ -1,11 +1,13 @@
 "use client";
-
+// cart context is used to manage the cart state in the client across components
 import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useOptimistic,
+  useState,
   type ReactNode,
 } from "react";
 import type {
@@ -18,8 +20,8 @@ import {
   updateCartQuantity as updateCartQuantityAction,
   removeFromCart as removeFromCartAction,
   clearCart as clearCartAction,
-} from "@/app/lib/cart/cart";
-import { useCartUI } from "../../ui/cart/cart-ui-context";
+} from "./cart-mutations";
+import { useCartTray } from "./cart-tray-context";
 
 type OptimisticAction =
   | { type: "add"; product: Product; quantity: number }
@@ -98,7 +100,7 @@ function cartReducer(
   }
 }
 
-type CartDataContextValue = {
+type CartContextState = {
   cart: CartWithProducts | null;
   addItem: (product: Product, quantity?: number) => void;
   updateQuantity: (productId: string, quantity: number) => void;
@@ -106,26 +108,34 @@ type CartDataContextValue = {
   clear: () => void;
 };
 
-const CartDataContext = createContext<CartDataContextValue | null>(null);
+const CartContext = createContext<CartContextState | null>(null);
 
-export function CartDataProvider({
+export function CartProvider({
   initialCart = null,
   children,
 }: {
   initialCart?: CartWithProducts | null;
   children: ReactNode;
 }) {
-  const { runCartAction } = useCartUI();
+  const { runCartAction } = useCartTray();
+  // manage cart from server in client state, update it with mutations.
+  const [cartState, setCart] = useState<CartWithProducts | null>(initialCart);
+
+  useEffect(() => {
+    setCart(initialCart);
+  }, [initialCart]);
+
   const [cart, applyOptimistic] = useOptimistic<
     CartWithProducts | null,
     OptimisticAction
-  >(initialCart, cartReducer);
+  >(cartState, cartReducer);
 
   const addItem = useCallback(
     (product: Product, quantity: number = 1) => {
       runCartAction(async () => {
         applyOptimistic({ type: "add", product, quantity });
-        await addToCartAction(product, quantity);
+        const updatedCart = await addToCartAction(product, quantity);
+        if (updatedCart) setCart(updatedCart);
       });
     },
     [runCartAction, applyOptimistic],
@@ -135,7 +145,8 @@ export function CartDataProvider({
     (productId: string, quantity: number) => {
       runCartAction(async () => {
         applyOptimistic({ type: "updateQuantity", productId, quantity });
-        await updateCartQuantityAction(productId, quantity);
+        const updatedCart = await updateCartQuantityAction(productId, quantity);
+        if (updatedCart) setCart(updatedCart);
       });
     },
     [runCartAction, applyOptimistic],
@@ -145,7 +156,8 @@ export function CartDataProvider({
     (productId: string) => {
       runCartAction(async () => {
         applyOptimistic({ type: "remove", productId });
-        await removeFromCartAction(productId);
+        const updatedCart = await removeFromCartAction(productId);
+        if (updatedCart) setCart(updatedCart);
       });
     },
     [runCartAction, applyOptimistic],
@@ -154,7 +166,8 @@ export function CartDataProvider({
   const clear = useCallback(() => {
     runCartAction(async () => {
       applyOptimistic({ type: "clear" });
-      await clearCartAction();
+      const updatedCart = await clearCartAction();
+      if (updatedCart) setCart(updatedCart);
     });
   }, [runCartAction, applyOptimistic]);
 
@@ -163,15 +176,11 @@ export function CartDataProvider({
     [cart, addItem, updateQuantity, removeItem, clear],
   );
 
-  return (
-    <CartDataContext.Provider value={value}>
-      {children}
-    </CartDataContext.Provider>
-  );
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
 
-export function useCartData(): CartDataContextValue {
-  const ctx = useContext(CartDataContext);
+export function useCartData(): CartContextState {
+  const ctx = useContext(CartContext);
   if (!ctx) {
     throw new Error("useCartData must be used within a CartDataProvider");
   }

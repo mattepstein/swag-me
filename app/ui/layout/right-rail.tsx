@@ -3,10 +3,10 @@
 import clsx from "clsx";
 import CartTray from "../cart/cart-tray";
 import CartIcon from "../cart/cart-icon";
-import { useCartUI } from "../cart/cart-ui-context";
+import { useCartTray } from "../../lib/cart/cart-tray-context";
 
 export default function RightRail() {
-  const { isOpen, toggle } = useCartUI();
+  const { isOpen, toggle } = useCartTray();
 
   return (
     <aside
@@ -14,7 +14,7 @@ export default function RightRail() {
         "absolute right-0 top-0 bottom-0 z-30 flex max-h-full flex-col overflow-hidden transition-[width,box-shadow,background-color,border-color] duration-200 ease-out",
         isOpen
           ? "pointer-events-auto w-56 border-l border-white/10 bg-zinc-900 text-white shadow-[-16px_0_32px_-12px_rgba(0,0,0,0.45)] sm:w-64"
-          : "pointer-events-none w-10 bg-transparent sm:w-11",
+          : "pointer-events-none w-18 bg-transparent sm:w-18",
       )}
     >
       <button
@@ -27,8 +27,8 @@ export default function RightRail() {
           isOpen ? "rounded-none border-b border-white/10" : "rounded-l-md",
         )}
       >
+        <div className="mx-1 px-1">{isOpen ? ">>" : "<<"}</div>
         <CartIcon />
-        {isOpen ? ">>" : "<<"}
       </button>
       {isOpen && <CartTray />}
     </aside>

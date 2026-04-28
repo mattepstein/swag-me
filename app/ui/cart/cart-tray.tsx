@@ -1,8 +1,8 @@
 "use client";
 
 import clsx from "clsx";
-import { useCartUI } from "./cart-ui-context";
-import { useCartData } from "../../lib/cart/cart-context";
+import { useCartTray } from "../../lib/cart/cart-tray-context";
+import { useCartData } from "../../lib/cart/cart-data-context";
 
 export function CartTraySkeleton() {
   return (
@@ -29,7 +29,7 @@ function TrayOverlay() {
 }
 
 export default function CartTray() {
-  const { isPending } = useCartUI();
+  const { isPending } = useCartTray();
   const { cart, updateQuantity, removeItem, clear } = useCartData();
 
   const isEmpty = !cart || (cart.items?.length ?? 0) === 0;
@@ -50,10 +50,10 @@ export default function CartTray() {
           <ul className="space-y-4">
             {cart!.items.map((line) => (
               <li key={line.product.id} className="rounded border p-4">
-                <div className="flex items-start justify-between gap-4">
+                <div className="flex-col flex-row items-start justify-between gap-4">
                   <div>
-                    <div className="font-medium">{line.product.name}</div>
-                    <div className="text-sm">
+                    <div className="font-medium py-2">{line.product.name}</div>
+                    <div className="text-sm py-2 text-right">
                       ${(line.lineTotal / 100).toFixed(2)}
                     </div>
                   </div>
