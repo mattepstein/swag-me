@@ -11,7 +11,7 @@ export function ProductsSkeleton() {
   return <ProductGridSkeleton showPagination={true} count={10} />;
 }
 
-export default async function Page({
+export default async function ProductsPage({
   searchParams,
 }: {
   searchParams: ProductSearchParams;
@@ -37,6 +37,7 @@ export default async function Page({
         category={category}
         search={search}
         featured={featured}
+        showPagination={true}
       />
     </Suspense>
   );

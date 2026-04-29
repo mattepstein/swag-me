@@ -25,19 +25,21 @@ export default function ProductCard({ product }: { product: Product }) {
     <div
       className={clsx(
         "card",
-        "bg-white",
+
         "border",
         "border-gray-200",
         "rounded-lg",
         "shadow-md",
         "overflow-hidden",
         "p-2",
+        "bg-white",
+        "text-black",
       )}
     >
       <div className="card-body">
         <Link href={`/products/${product.id}`}>
           <div className="flex flex-col gap-2 justify-center items-center">
-            <div className="text-lg font-bold">{product.name}</div>
+            <div className="text-lg font-bold ">{product.name}</div>
 
             <Image
               src={product.images[0]}

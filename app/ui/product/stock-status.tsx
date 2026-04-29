@@ -1,5 +1,6 @@
 import { getProductStock } from "@/app/lib/api";
 import { clsx } from "clsx";
+import { cacheLife } from "next/cache";
 
 export function ProductStockSkeleton() {
   return <div className="h-4 w-full animate-pulse rounded bg-gray-200" />;
@@ -10,6 +11,8 @@ export default async function StockStatus({
 }: {
   productId: string;
 }) {
+  "use cache";
+  cacheLife("stock");
   const stock = await getProductStock(productId);
   const isOutOfStock =
     !stock?.data || stock.data.stock === null || stock.data.stock < 1;
