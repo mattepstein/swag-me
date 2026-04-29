@@ -1,6 +1,8 @@
 import { getProduct } from "@/app/lib/api";
 import ImageCarousel from "@/app/ui/product/image-carousel";
-import StockStatus from "@/app/ui/product/stock-status";
+import StockStatus, {
+  ProductStockSkeleton,
+} from "@/app/ui/product/stock-status";
 import AddToCartButton from "@/app/ui/product/add-to-cart-button";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
@@ -29,7 +31,7 @@ export default async function ProductDetail({ slug }: { slug: string }) {
           <div className="text-2xl font-bold">{product.data.name}</div>
 
           <p className="text-gray-500">${product.data.price / 100}</p>
-          <Suspense fallback={<div>Loading stock…</div>}>
+          <Suspense fallback={<ProductStockSkeleton />}>
             <StockStatus productId={product.data.id} />
           </Suspense>
 

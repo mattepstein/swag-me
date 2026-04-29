@@ -1,3 +1,5 @@
+import "server-only";
+
 export { ApiError } from "./client";
 export { listProducts, getProduct } from "./products";
 export type { ListProductsParams } from "./products";

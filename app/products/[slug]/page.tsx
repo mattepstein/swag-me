@@ -58,7 +58,7 @@ export default async function Page(props: {
 
   return (
     <main className="container mx-0 px-4 py-8">
-      <Suspense fallback=<ProductDetailSkeleton />>
+      <Suspense fallback={<ProductDetailSkeleton />}>
         <ProductDetail slug={params.slug} />
       </Suspense>
     </main>

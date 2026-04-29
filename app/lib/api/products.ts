@@ -1,3 +1,4 @@
+import "server-only";
 import { get } from "./client";
 import { cacheLife, cacheTag } from "next/cache";
 import type {

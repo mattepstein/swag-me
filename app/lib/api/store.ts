@@ -1,3 +1,4 @@
+import "server-only";
 import { get } from "./client";
 import { cacheLife } from "next/cache";
 import type { ApiSuccessResponse } from "@/app/lib/models";

@@ -1,5 +1,5 @@
+import "server-only";
 import { get } from "./client";
-
 import { cacheLife } from "next/cache";
 import type { StockResponse } from "@/app/lib/models";
 

@@ -19,14 +19,14 @@ export default function ProductNotFoundCard() {
       <div className="card-body">
         <div className="flex flex-col gap-2 justify-center items-center">
           <div className="text-lg font-bold">
-            Well, that's not what we expected...
+            Well, that was not expected...
           </div>
 
           <Image
             src={notFoundImage}
             alt="Not Found"
-            width={300}
-            height={300}
+            width={800}
+            height={800}
             loading="eager"
             quality={90}
             className="object-cover"

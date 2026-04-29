@@ -4,17 +4,6 @@ import clsx from "clsx";
 import { useCartTray } from "../../lib/cart/cart-tray-context";
 import { useCartData } from "../../lib/cart/cart-data-context";
 
-export function CartTraySkeleton() {
-  return (
-    <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto p-3 text-sm">
-      <p className="font-semibold text-white/90">Cart</p>
-      <p className="text-white/70"> Total items: ... </p>
-      <p className="text-white/70"> Total price: ... </p>
-      <button className="btn btn-primary disabled:opacity-50"> Checkout</button>
-    </div>
-  );
-}
-
 function TrayOverlay() {
   return (
     <div
@@ -31,7 +20,9 @@ function TrayOverlay() {
 export default function CartTray() {
   const { isPending } = useCartTray();
   const { cart, updateQuantity, removeItem, clear } = useCartData();
-
+  const checkout = () => {
+    alert("Checkout not implemented");
+  };
   const isEmpty = !cart || (cart.items?.length ?? 0) === 0;
 
   return (
@@ -106,6 +97,16 @@ export default function CartTray() {
               <span>Subtotal</span>
               <span>${(cart!.subtotal / 100).toFixed(2)}</span>
             </div>
+            {cart!.promotion && cart!.discount > 0 ? (
+              <div className="mt-2 flex justify-between text-emerald-300">
+                <span>{cart!.promotion.code}</span>
+                <span>-${(cart!.discount / 100).toFixed(2)}</span>
+              </div>
+            ) : null}
+            <div className="mt-2 flex justify-between font-semibold">
+              <span>Total</span>
+              <span>${(cart!.total / 100).toFixed(2)}</span>
+            </div>
 
             <button
               type="button"
@@ -113,6 +114,15 @@ export default function CartTray() {
               className="mt-4 rounded border px-4 py-2 disabled:opacity-50"
             >
               Clear cart
+            </button>
+          </div>
+          <div className=" flex justify-center p-1">
+            <button
+              type="button"
+              onClick={() => checkout()}
+              className="mt-1 rounded border px-6 py-2 "
+            >
+              Checkout
             </button>
           </div>
         </div>

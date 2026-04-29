@@ -25,7 +25,13 @@ export function CategoryList({
       <Link href="/" className={linkClass}>
         Home
       </Link>
-      <Link href="/products" className={linkClass}>
+      <Link
+        href="/products"
+        className={clsx(
+          linkClass,
+          !currentCategory ? "bg-gray-300 text-black" : "",
+        )}
+      >
         All products
       </Link>
       <div className="text-sm px-2 py-1.5 underline font-medium">
@@ -40,7 +46,7 @@ export function CategoryList({
                 className={clsx(
                   linkClass,
                   currentCategory === category.slug
-                    ? "bg-white/10 text-black"
+                    ? "bg-gray-300 text-black"
                     : "",
                 )}
                 key={category.slug}

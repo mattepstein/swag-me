@@ -51,12 +51,19 @@ async function refreshValidatedCart(): Promise<{
       token,
     )) as ApiSuccessResponse<CartWithProducts>;
     return { token, response };
-  } catch {
+  } catch (firstError) {
     token = await ensureCartToken(true);
-    const response = (await getCart(
-      token,
-    )) as ApiSuccessResponse<CartWithProducts>;
-    return { token, response };
+    try {
+      const response = (await getCart(
+        token,
+      )) as ApiSuccessResponse<CartWithProducts>;
+      return { token, response };
+    } catch (secondError) {
+      throw new AggregateError(
+        [firstError, secondError],
+        "Cart could not be loaded after refreshing the session. Try again.",
+      );
+    }
   }
 }
 

@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { getStoreConfig } from "./lib/api";
 
-import Header, { HeaderSkeleton } from "./ui/layout/header";
+import Header from "./ui/layout/header";
 import RightRail from "./ui/layout/right-rail";
 import CartDataHost from "./ui/cart/cart-rail";
 import { CartProvider } from "./lib/cart/cart-data-context";
@@ -50,12 +50,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const layoutBody = (
-    <div className="relative flex min-h-0 min-w-0 flex-1">
-      <div className="min-h-0 min-w-0 w-full flex-1 overflow-x-hidden">
-        {children}
+    <>
+      <Header />
+      <div className="relative flex min-h-0 min-w-0 flex-1">
+        <div className="min-h-0 min-w-0 w-full flex-1 overflow-x-hidden">
+          {children}
+        </div>
+        <RightRail />
       </div>
-      <RightRail />
-    </div>
+    </>
   );
 
   return (
@@ -64,9 +67,6 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-dvh flex-col bg-background text-foreground">
-        <Suspense fallback={<HeaderSkeleton />}>
-          <Header />
-        </Suspense>
         <CartTrayProvider>
           <Suspense fallback={<CartProvider>{layoutBody}</CartProvider>}>
             <CartDataHost>{layoutBody}</CartDataHost>

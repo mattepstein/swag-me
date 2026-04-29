@@ -1,3 +1,4 @@
+import "server-only";
 import { cacheLife } from "next/cache";
 import { get } from "./client";
 import type { CategoryListResponse } from "@/app/lib/models";

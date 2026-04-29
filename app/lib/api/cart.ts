@@ -1,3 +1,4 @@
+import "server-only";
 import { get, post, patch, del } from "./client";
 import type {
   CartResponse,
