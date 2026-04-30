@@ -2,6 +2,7 @@ import Link from "next/link";
 import Logo from "../header/logo";
 import Menu from "../header/menu";
 import Promobar from "../header/promo-bar";
+import StoreName from "../header/store-name";
 
 export default function Header() {
   return (
@@ -12,6 +13,9 @@ export default function Header() {
             <Link href="/" aria-label="Home">
               <Logo />
             </Link>
+            <div>
+              <StoreName />
+            </div>
             <Menu />
           </div>
           <div className="flex w-full items-center justify-between gap-2 sm:w-auto sm:justify-end"></div>
