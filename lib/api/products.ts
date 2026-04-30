@@ -11,21 +11,28 @@ export interface ListProductsParams {
   page?: number;
   limit?: number;
   category?: CategorySlug;
+  tag?: string;
   search?: string;
   featured?: boolean;
+}
+
+function mapListProductsParams(params?: ListProductsParams) {
+  if (!params) return undefined;
+
+  const { tag, search, featured, ...rest } = params;
+
+  return {
+    ...rest,
+    search: search || tag,
+    featured: featured !== undefined ? String(featured) : undefined,
+  };
 }
 
 export async function listProducts(params?: ListProductsParams) {
   "use cache: remote";
   cacheLife("products");
 
-  const mapped = params
-    ? {
-        ...params,
-        featured:
-          params.featured !== undefined ? String(params.featured) : undefined,
-      }
-    : undefined;
+  const mapped = mapListProductsParams(params);
 
   const { data } = await get<ProductListResponse>("/products", {
     params: mapped,

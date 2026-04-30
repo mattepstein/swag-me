@@ -51,15 +51,13 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function Page(props: {
+export default function Page(props: {
   params: Promise<{ slug: string }>;
 }) {
-  const params = await props.params;
-
   return (
     <main className="container mx-0 px-4 py-8">
       <Suspense fallback={<ProductDetailSkeleton />}>
-        <ProductDetail slug={params.slug} />
+        <ProductDetail params={props.params} />
       </Suspense>
     </main>
   );

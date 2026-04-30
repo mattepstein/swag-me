@@ -14,6 +14,7 @@ export interface Product {
 }
 export type ProductSearchParams = Promise<{
   category?: string;
+  tag?: string;
   search?: string;
   featured?: string;
   page?: string;

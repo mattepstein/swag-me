@@ -8,6 +8,7 @@ export async function ProductGridData({
   page,
   limit,
   category,
+  tag,
   search,
   featured,
   showPagination = false,
@@ -15,6 +16,7 @@ export async function ProductGridData({
   page: number;
   limit: number;
   category?: CategorySlug | undefined;
+  tag?: string;
   search?: string;
   featured?: boolean;
   showPagination?: boolean;
@@ -23,6 +25,7 @@ export async function ProductGridData({
     page,
     limit,
     category,
+    tag,
     search,
     featured,
   });

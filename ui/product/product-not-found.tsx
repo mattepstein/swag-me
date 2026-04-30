@@ -2,7 +2,11 @@ import { clsx } from "clsx";
 import Image from "next/image";
 import notFoundImage from "../../public/not-found.webp";
 
-export default function ProductNotFoundCard() {
+export default function ProductNotFoundCard({
+  notFoundCopy = "Well, that was not expected...",
+}: {
+  notFoundCopy?: string;
+}) {
   return (
     <div
       className={clsx(
@@ -18,9 +22,7 @@ export default function ProductNotFoundCard() {
     >
       <div className="card-body">
         <div className="flex flex-col gap-2 justify-center items-center">
-          <div className="text-lg font-bold">
-            Well, that was not expected...
-          </div>
+          <div className="text-lg font-bold">{notFoundCopy}</div>
 
           <Image
             src={notFoundImage}

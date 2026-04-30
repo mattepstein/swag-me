@@ -1,17 +1,16 @@
 import { Suspense } from "react";
-import ProductGrid, {
+import {
   ProductGridData,
   ProductGridSkeleton,
 } from "./product-grid";
 import { ProductSearchParams } from "../../lib/models/product";
-import { isCategorySlug, CategorySlug } from "../../lib/models/category";
-import { listProducts } from "../../lib/api";
+import { isCategorySlug } from "../../lib/models/category";
 
 export function ProductsSkeleton() {
   return <ProductGridSkeleton showPagination={true} count={10} />;
 }
 
-export default async function ProductsPage({
+async function ProductsGridFromSearchParams({
   searchParams,
 }: {
   searchParams: ProductSearchParams;
@@ -23,22 +22,36 @@ export default async function ProductsPage({
     params.category && isCategorySlug(params.category)
       ? params.category
       : undefined;
+  const tag = params.tag;
   const search = params.search;
   const featured = params.featured === "true" ? true : undefined;
 
   return (
     <Suspense
-      key={`${page}-${limit}-${category ?? ""}-${search ?? ""}-${featured ?? ""}`}
+      key={`${page}-${limit}-${category ?? ""}-${tag ?? ""}-${search ?? ""}-${featured ?? ""}`}
       fallback={<ProductGridSkeleton showPagination={true} count={limit} />}
     >
       <ProductGridData
         page={page}
         limit={limit}
         category={category}
+        tag={tag}
         search={search}
         featured={featured}
         showPagination={true}
       />
+    </Suspense>
+  );
+}
+
+export default function ProductsPage({
+  searchParams,
+}: {
+  searchParams: ProductSearchParams;
+}) {
+  return (
+    <Suspense fallback={<ProductsSkeleton />}>
+      <ProductsGridFromSearchParams searchParams={searchParams} />
     </Suspense>
   );
 }

@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { ProductSearchParams } from "../../lib/models/product";
 import Products, { ProductsSkeleton } from "../../ui/product/products-page";
-export default async function Page({
+export default function Page({
   searchParams,
 }: {
   searchParams: ProductSearchParams;
