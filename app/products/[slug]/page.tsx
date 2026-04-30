@@ -1,8 +1,8 @@
 import { Suspense } from "react";
-import { getProduct, listProducts } from "@/app/lib/api";
+import { getProduct, listProducts } from "@/lib/api";
 import ProductDetail, {
   ProductDetailSkeleton,
-} from "@/app/ui/product/product-detail";
+} from "@/ui/product/product-detail";
 import { Metadata } from "next";
 
 export async function generateMetadata({

@@ -1,5 +1,5 @@
-import Hero from "./ui/home/hero";
-import FeaturedProducts from "./ui/home/featured-products";
+import Hero from "../ui/home/hero";
+import FeaturedProducts from "../ui/home/featured-products";
 
 export default function Home() {
   return (

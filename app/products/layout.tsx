@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "../globals.css";
-import LeftRail, { LeftRailSkeleton } from "../ui/layout/left-rail";
-import { listCategories } from "../lib/api/categories";
+import LeftRail, { LeftRailSkeleton } from "../../ui/layout/left-rail";
+import { listCategories } from "../../lib/api/categories";
 import { Suspense } from "react";
 
 export async function generateMetadata(): Promise<Metadata> {

@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { getStoreConfig } from "./lib/api";
+import { getStoreConfig } from "../lib/api";
 
-import Header from "./ui/layout/header";
-import RightRail from "./ui/layout/right-rail";
-import CartDataHost from "./ui/cart/cart-rail";
-import { CartProvider } from "./lib/cart/cart-data-context";
-import { CartTrayProvider } from "./lib/cart/cart-tray-context";
-import Footer from "./ui/layout/footer";
+import Header from "../ui/layout/header";
+import RightRail from "../ui/layout/right-rail";
+import CartDataHost from "../ui/cart/cart-rail";
+import { CartProvider } from "../lib/cart/cart-data-context";
+import { CartTrayProvider } from "../lib/cart/cart-tray-context";
+import Footer from "../ui/layout/footer";
 import { Suspense } from "react";
 
 const geistSans = Geist({

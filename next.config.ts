@@ -21,6 +21,11 @@ const nextConfig: NextConfig = {
       revalidate: 900, // 15 minutes before revalidation
       expire: 3600, // 1 hour max
     },
+    promotions: {
+      stale: 300, // 5 minutes fresh
+      revalidate: 900, // 15 minutes before revalidation
+      expire: 3600, // 1 hour max
+    },
     stock: {
       stale: 60, // 1 minutes fresh
       revalidate: 120, // 2 minutes before revalidation
