@@ -5,10 +5,10 @@ import { getStoreConfig } from "../lib/api";
 
 import Header from "../ui/layout/header";
 import RightRail from "../ui/layout/right-rail";
-import CartDataHost from "../ui/cart/cart-rail";
 import { CartProvider } from "../lib/cart/cart-data-context";
 import { CartTrayProvider } from "../lib/cart/cart-tray-context";
 import Footer from "../ui/layout/footer";
+import CartDataLoader from "@/ui/cart/cart-data-loader";
 import { Suspense } from "react";
 
 const geistSans = Geist({
@@ -68,9 +68,12 @@ export default function RootLayout({
     >
       <body className="flex min-h-dvh flex-col bg-background text-foreground">
         <CartTrayProvider>
-          <Suspense fallback={<CartProvider>{layoutBody}</CartProvider>}>
-            <CartDataHost>{layoutBody}</CartDataHost>
-          </Suspense>
+          <CartProvider>
+            <Suspense fallback={null}>
+              <CartDataLoader />
+            </Suspense>
+            {layoutBody}
+          </CartProvider>
         </CartTrayProvider>
         <Footer />
       </body>

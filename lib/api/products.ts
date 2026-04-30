@@ -33,18 +33,29 @@ export async function listProducts(params?: ListProductsParams) {
   cacheLife("products");
 
   const mapped = mapListProductsParams(params);
+  const page = params?.page ?? 1;
+  const limit = params?.limit ?? 10;
+
   try {
     const { data } = await get<ProductListResponse>("/products", {
       params: mapped,
     });
     return data;
-  } catch (error) {
+  } catch {
     return {
+      success: true,
       data: [],
       meta: {
-        total: 0,
+        pagination: {
+          page,
+          limit,
+          total: 0,
+          totalPages: 0,
+          hasNextPage: false,
+          hasPreviousPage: page > 1,
+        },
       },
-    };
+    } satisfies ProductListResponse;
   }
 }
 

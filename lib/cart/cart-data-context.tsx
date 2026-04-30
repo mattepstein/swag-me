@@ -134,6 +134,7 @@ type CartContextState = {
   updateQuantity: (productId: string, quantity: number) => void;
   removeItem: (productId: string) => void;
   clear: () => void;
+  syncCart: (updatedCart: CartWithProducts | null) => void;
   applyPromotion: (promotion: Promotion | null) => void;
   promotion: Promotion | null;
 };
@@ -239,6 +240,7 @@ export function CartProvider({
       updateQuantity,
       removeItem,
       clear,
+      syncCart: syncServerCart,
       applyPromotion,
       promotion,
     }),
@@ -248,6 +250,7 @@ export function CartProvider({
       updateQuantity,
       removeItem,
       clear,
+      syncServerCart,
       applyPromotion,
       promotion,
     ],
