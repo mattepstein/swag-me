@@ -1,12 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Suspense, useState } from "react";
-import { SearchbarComponent } from "./searchbar-componenet";
-
-function MenuSearchSkeleton() {
-  return <div className="h-10 w-full animate-pulse rounded-md bg-gray-200" />;
-}
+import { useState } from "react";
 
 export default function Menu() {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,7 +32,7 @@ export default function Menu() {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-full z-50 mt-3 w-80 max-w-[calc(100vw-2rem)] rounded-lg border border-white/10 bg-zinc-900 p-4 text-white shadow-xl">
+        <div className="absolute right-0 top-full z-50 mt-3 w-80 max-w-[calc(100vw-2rem)] rounded-lg border border-white/10 bg-zinc-600 p-4 text-white shadow-xl">
           <nav aria-label="Main menu" className="flex flex-col gap-3">
             <Link
               href="/"
@@ -51,13 +46,8 @@ export default function Menu() {
               className="rounded-md px-3 py-2 text-sm font-medium hover:bg-white/10"
               onClick={() => setIsOpen(false)}
             >
-              All Products
+              Search
             </Link>
-            <div className="pt-2">
-              <Suspense fallback={<MenuSearchSkeleton />}>
-                <SearchbarComponent placeholder="Search products" />
-              </Suspense>
-            </div>
           </nav>
         </div>
       )}

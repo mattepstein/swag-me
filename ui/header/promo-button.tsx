@@ -21,7 +21,7 @@ export default function PromotionButton({
   };
   return (
     <button
-      className="bg-gray-600 text-white px-4 py-2 rounded-md"
+      className="bg-zinc-600  text-white px-4 py-2 rounded-md"
       onClick={handleApply}
       disabled={isApplied}
     >

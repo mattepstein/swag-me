@@ -10,7 +10,7 @@ import { useSearchParams } from "next/navigation";
 
 export function LeftRailSkeleton() {
   return (
-    <aside className="relative z-10 flex shrink-0 flex-col border-r border-white/10 bg-zinc-900 text-white transition-[width] duration-200 ease-out w-52 sm:w-56">
+    <aside className="relative z-10 flex shrink-0 flex-col border-r border-white/10 bg-zinc-900 text-white transition-[width] duration-200 ease-out w-10 sm:w-11">
       <div className="h-11 w-full  " />
     </aside>
   );
@@ -21,7 +21,7 @@ export default function LeftRail({
 }: {
   categoryList: Category[];
 }) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const searchParams = useSearchParams();
   const currentCategory = searchParams.get("category") || "";
   return (

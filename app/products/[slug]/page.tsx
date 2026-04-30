@@ -51,9 +51,7 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function Page(props: {
-  params: Promise<{ slug: string }>;
-}) {
+export default function Page(props: { params: Promise<{ slug: string }> }) {
   return (
     <main className="container mx-0 px-4 py-8">
       <Suspense fallback={<ProductDetailSkeleton />}>

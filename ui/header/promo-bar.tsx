@@ -4,8 +4,8 @@ import { Suspense } from "react";
 import PromotionButton from "./promo-button";
 
 const promoBarStyle = (skeleton: boolean) =>
-  clsx("w-full", "h-10", {
-    "animate-pulse": skeleton,
+  clsx("w-full", {
+    "animate-pulse h-20": skeleton,
     "text-white": !skeleton,
   });
 

@@ -98,7 +98,7 @@ export default function CartTray() {
               <span>${(cart!.subtotal / 100).toFixed(2)}</span>
             </div>
             {cart!.promotion && cart!.discount > 0 ? (
-              <div className="mt-2 flex justify-between text-emerald-300">
+              <div className="mt-2 flex justify-between text-zinc-400 ">
                 <span>{cart!.promotion.code}</span>
                 <span>-${(cart!.discount / 100).toFixed(2)}</span>
               </div>

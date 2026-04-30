@@ -33,20 +33,31 @@ export async function listProducts(params?: ListProductsParams) {
   cacheLife("products");
 
   const mapped = mapListProductsParams(params);
-
-  const { data } = await get<ProductListResponse>("/products", {
-    params: mapped,
-  });
-  return data;
+  try {
+    const { data } = await get<ProductListResponse>("/products", {
+      params: mapped,
+    });
+    return data;
+  } catch (error) {
+    return {
+      data: [],
+      meta: {
+        total: 0,
+      },
+    };
+  }
 }
 
 export async function getProduct(id: string) {
   "use cache: remote";
   cacheLife("products");
   cacheTag("products", `product-${id}`);
-
-  const { data } = await get<ProductResponse>(
-    `/products/${encodeURIComponent(id)}`,
-  );
-  return data;
+  try {
+    const { data } = await get<ProductResponse>(
+      `/products/${encodeURIComponent(id)}`,
+    );
+    return data;
+  } catch (error) {
+    return null;
+  }
 }

@@ -4,6 +4,10 @@ import { useDebouncedCallback } from "use-debounce";
 import searchIcon from "../../public/icons/search.svg";
 import Image from "next/image";
 
+export function SearchSkeleton() {
+  return <div className="h-10 w-full animate-pulse rounded-md bg-gray-200" />;
+}
+
 //the search bar based on example from learn nextjs
 export function SearchbarComponent({ placeholder }: { placeholder: string }) {
   const searchParams = useSearchParams();
