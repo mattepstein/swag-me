@@ -1,12 +1,9 @@
 import { Suspense } from "react";
-import {
-  ProductGridData,
-  ProductGridSkeleton,
-} from "./product-grid";
+import { ProductGridData, ProductGridSkeleton } from "./product-grid";
 import { ProductSearchParams } from "../../lib/models/product";
 import { isCategorySlug } from "../../lib/models/category";
 
-export function ProductsSkeleton() {
+export function ProductSearchSkeleton() {
   return <ProductGridSkeleton showPagination={true} count={10} />;
 }
 
@@ -44,13 +41,13 @@ async function ProductsGridFromSearchParams({
   );
 }
 
-export default function ProductsPage({
+export default function ProductSearchPage({
   searchParams,
 }: {
   searchParams: ProductSearchParams;
 }) {
   return (
-    <Suspense fallback={<ProductsSkeleton />}>
+    <Suspense fallback={<ProductSearchSkeleton />}>
       <ProductsGridFromSearchParams searchParams={searchParams} />
     </Suspense>
   );

@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
 import "../globals.css";
 import LeftRail, { LeftRailSkeleton } from "../../ui/layout/left-rail";
-import {
-  SearchbarComponent,
-  SearchSkeleton,
-} from "@/ui/header/searchbar-componenet";
 
 import { listCategories } from "../../lib/api/categories";
 import { Suspense } from "react";
@@ -28,11 +24,6 @@ export default async function Layout({
       </Suspense>
 
       <div className="min-h-0 min-w-0  overflow-x-hidden h-full px-4 py-8">
-        <div className="md:col-span-3  sm:col-span-1 bg-gray-100  ">
-          <Suspense fallback={<SearchSkeleton />}>
-            <SearchbarComponent placeholder="Search products" />
-          </Suspense>
-        </div>
         {children}
       </div>
     </div>
